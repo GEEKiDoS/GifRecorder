@@ -100,6 +100,8 @@ namespace GifRecorder
                 btnStart.IsEnabled = true;
                 btnStartTxt.Text = "录制";
                 txtTitle.Text = "GIF录制者";
+
+                MessageBox.Show($"GIF生成完毕!\r\n\r\n位置:{dialog.FileName}","提示",MessageBoxButton.OK);
             }
             else
             {
@@ -112,7 +114,7 @@ namespace GifRecorder
                 var arg = $"-f gdigrab -video_size {txtRecordSize.Text} -offset_x {offsetx} -offset_y {offsety} -draw_mouse {(cbDrawMouse.IsChecked == true ? 1 : 0)} -framerate {fps} -i desktop -s {resStr} -q 0 temp\\out\\%03d.jpg";
                 if (cbFullscreen.IsChecked == true)
                 {
-                    arg = $"-f gdigrab -draw_mouse {(cbDrawMouse.IsChecked == true ? 1 : 0)} -framerate {fps} -i desktop -s {resStr} -q 0 temp\\out\\%03d.jpg";
+                    arg = $"-f gdigrab -draw_mouse {(cbDrawMouse.IsChecked == true ? 1 : 0)} -r {fps} -i desktop -s {resStr} -r {fps} -q 0 temp\\out\\%03d.jpg";
                 }
                 ffmpegProcess = RunFFMpegWithArgs(arg);
 
@@ -133,11 +135,11 @@ namespace GifRecorder
                     FileName = "bin\\ffmpeg.exe",
                     CreateNoWindow = true,
                     UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true
+//RedirectStandardOutput = true,
+                   // RedirectStandardError = true
                 },
             };
-
+            /*
             process.OutputDataReceived += (sender, e) =>
             {
                 ffmpegLog += e.Data;
@@ -155,7 +157,7 @@ namespace GifRecorder
                 //MessageBox.Show(ffmpegLog);
                 ffmpegLog = "";
             };
-
+            */
 
             process.Start();
 
